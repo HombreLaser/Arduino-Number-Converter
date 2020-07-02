@@ -1,3 +1,7 @@
+# Arduino-Number-Converter
+Librería escrita por Carl Ohlsson (https://github.com/CarlOhlsson) modificada para aceptar números flotantes y las bases numéricas 6 y 20.
+
+# Readme original 
 
 Arduino Converter
 -----------------
@@ -15,5 +19,3 @@ Currently Supporting
 	Binary 		-> Decimal
 	Hexadecimal -> Decimal
 	Octal 		-> Decimal
-	
-
