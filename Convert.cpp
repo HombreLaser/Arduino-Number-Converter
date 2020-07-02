@@ -46,6 +46,22 @@ long Convert::octalToDecimal(String value){
     return strtol(valueAsArray, NULL, base);
 }
 
+long Convert::base6ToDecimal(String value){
+	int base = 6;
+    int length = value.length() +1;
+    char valueAsArray[length];
+    value.toCharArray(valueAsArray, length);
+    return strtol(valueAsArray, NULL, base);
+}
+
+long Convert::base20ToDecimal(String value){
+	int base = 20;
+    int length = value.length() +1;
+    char valueAsArray[length];
+    value.toCharArray(valueAsArray, length);
+    return strtol(valueAsArray, NULL, base);
+}
+
 /**
   Using the divide by 2 and remainder method to create a binary string
 
@@ -118,8 +134,250 @@ String Convert::decimalToOctal(long value){
 
 }
 
+//Divide entre 6
+String Convert::decimalToBase6(long value){
+  String result = "";
+  short int n;
+  if(value == 0){
+    return "0";
+  }else{
+    while(value > 0){
+      n = value % 6;
+	  result = String(n) + result;
+      value /= 6;
+    }
+  }
+	return result;
+}
+
+String Convert::decimalToBase20(long value){
+	String result = "";
+	short int n;
+	if(value == 0){
+		return "0";
+	}else{
+		while(value > 0){
+			n = value % 20;
+			switch(n){
+				case 10:
+					result = "A" + result;
+				break;
+				case 11:
+					result = "B" + result;
+				break;
+				case 12:
+					result = "C" + result;
+				break;
+				case 13:
+					result = "D" + result;
+				break;
+				case 14:
+					result = "E" + result;
+				break;
+				case 15:
+					result = "F" + result;
+				break;
+				case 16:
+					result = "G" + result;
+				break;
+				case 17:
+					result = "H" + result;
+				break;
+				case 18:
+					result = "I" + result;
+				break;
+				case 19:
+					result = "J" + result;
+				break;
+				default:
+					result = String(n) + result;
+				break;
+			}
+			value /= 20;
+		}
+		return result;
+	}
+}
+
 /**
-  This method will translate a 4 bit binary value into the correct hexadecimal didgit
+	Este método toma la parte fraccionaria de un número decimal
+	y la multiplica por la base para así conseguir la parte 
+	fraccionaria de su equivalente en base 6. Sólo repite el
+	proceso dos veces. Si la parte fraccionaria es igual a 0 
+	regresará "00", los dos decimales que muestra la calculadora
+	por defecto.
+**/
+
+String Convert::decimalToBase6Float(float value){
+	String result = "";
+	float n;
+	bool integerVerifier = false;
+	n = value - round(value - 0.5);
+	result = decimalToBase6(value) + ".";
+	if(n != 0){
+		for(int i = 1; i <= 2; i++){
+			while(!integerVerifier){
+				n *= 6; 
+				if(n >= 1){
+					result += String(round(n - 0.5));
+					n -= round(n - 0.5);
+					if(n == 0){
+						integerVerifier = true;
+					}
+				}else{
+					n *= 6;
+				}
+			}
+		}
+	}else{
+		result += "00";
+	}
+	return result;
+}
+
+String Convert::decimalToHexaFloat(float value){
+	String result = "";
+	float n;
+	short int roundedN;
+	bool integerVerifier = false;
+	n = value - round(value - 0.5);
+	result = decimalToHexa(value) + ".";
+	if(n != 0){
+		for(int i = 1; i <= 2; i++){
+			while(integerVerifier == false){
+				n *= 16; 
+				if(n >= 1){
+					roundedN = round(n - 0.5);
+					switch(roundedN){
+						case 10:
+							result += "A";
+						break;
+						case 11:
+							result += "B";
+						break;
+						case 12:
+							result += "C";
+						break;
+						case 13:
+							result += "D";
+						break;
+						case 14:
+							result += "E";
+						break;
+						case 15:
+							result += "F";
+						break;
+						default:
+							result += String(roundedN);
+						break;
+					}
+					n -= round(n - 0.5);
+					if(n == 0){
+						integerVerifier = true;
+					}
+				}else{
+					n *= 16;
+				}
+			}
+		}
+	}else{
+		result += "00";
+	}
+	return result;
+}
+
+String Convert::decimalToBinaryFloat(float value){
+	String result = "";
+	float n;
+	bool integerVerifier = false;
+	n = value - round(value - 0.5);
+	result = decimalToBinary(value) + ".";
+	if(n != 0){
+		for(int i = 1; i <= 2; i++){
+			while(integerVerifier == false){
+				n *= 2; 
+				if(n >= 1){
+					result += String(round(n - 0.5));
+					n -= round(n - 0.5);
+					if(n == 0){
+						integerVerifier = true;
+					}
+				}else{
+					n *= 2;
+				}
+			}
+		}
+	}else{
+		result += "00";
+	}
+	return result;
+}
+
+String Convert::decimalToBase20Float(float value){
+	String result = "";
+	float n;
+	short int roundedN;
+	bool integerVerifier = false;
+	n = value - round(value - 0.5);
+	result = decimalToBase20(value) + ".";
+	if(n != 0){
+		for(int i = 1; i <= 2; i++){
+			while(integerVerifier == false){
+				n *= 16; 
+				if(n >= 1){
+					roundedN = round(n - 0.5);
+					switch(roundedN){
+						case 10:
+							result += "A";
+						break;
+						case 11:
+							result += "B";
+						break;
+						case 12:
+							result += "C";
+						break;
+						case 13:
+							result += "D";
+						break;
+						case 14:
+							result += "E";
+						break;
+						case 15:
+							result += "F";
+						break;
+						case 16:
+							result += "G";
+						break;
+						case 17:
+							result += "H";
+						break;
+						case 18:
+							result += "I";
+						break;
+						case 19:
+							result += "J";
+						break;
+						default:
+							result += String(roundedN);
+						break;
+					}
+					n -= round(n - 0.5);
+					if(n == 0){
+						integerVerifier = true;
+					}
+				}else{
+					n *= 16;
+				}
+			}
+		}
+	}else{
+		result += "00";
+	}
+	return result;
+}
+
+/**
+  This method will translate a 4 bit binary value into the correct hexadecimal digit
 */
 String Convert::fourBitsToHex(String value){
   int decValue = binaryToDecimal(value);
@@ -147,3 +405,5 @@ String Convert::fourBitsToHex(String value){
     break;
   }
 }
+
+
